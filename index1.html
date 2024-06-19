@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Data</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h2>Data Sensor Suhu dan Kelembapan</h2>
+    </center>
+    <div style="width: 75%; margin: auto;">
+        <table id="sensorTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NIM</th>
+                    <th>Suhu (°C)</th>
+                    <th>Kelembapan (%)</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        fetch('/data')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('sensorTable').getElementsByTagName('tbody')[0];
+                data.forEach(row => {
+                    const newRow = tableBody.insertRow();
+                    newRow.insertCell().textContent = row.id;
+                    newRow.insertCell().textContent = row.nim;
+                    newRow.insertCell().textContent = row.suhu;
+                    newRow.insertCell().textContent = row.kelembapan;
+                    newRow.insertCell().textContent = row.timestamp;
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>
